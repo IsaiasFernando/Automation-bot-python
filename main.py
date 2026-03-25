@@ -1,30 +1,37 @@
 import pandas as pd
 from playwright.sync_api import sync_playwright
 import time
+import os
+from dotenv import load_dotenv
+
+# Carrega as variáveis do arquivo .env
+load_dotenv()
 
 def executar_automacao():
+    # Busca as credenciais de forma segura do arquivo .env
+    usuario_env = os.getenv("USER_SITE")
+    senha_env = os.getenv("PASS_SITE")
+
     with sync_playwright() as p:
         print("🤖 Iniciando o robô...")
-        # Lançamos o navegador
-        browser = p.chromium.launch(headless=False) # Mantenha False para ver a mágica
+        browser = p.chromium.launch(headless=False)
         context = browser.new_context()
         page = context.new_page()
 
         try:
-            # 1. ACESSO E LOGIN (Exemplo com site de testes)
+            # 1. ACESSO E LOGIN (Usando variáveis de ambiente)
             print("🔗 Acessando site de login...")
             page.goto("https://the-internet.herokuapp.com/login")
             
-            # Preenchendo os campos (Tratamento de formulário)
-            page.fill("input#username", "tomsmith")
-            page.fill("input#password", "SuperSecretPassword!")
+            print(f"👤 Tentando login com o usuário: {usuario_env}")
+            page.fill("input#username", usuario_env)
+            page.fill("input#password", senha_env)
             page.click("button[type='submit']")
             
             print("✅ Login efetuado!")
-            time.sleep(2) # Pausa curta para visualização
+            time.sleep(2) 
 
             # 2. COLETA DE DADOS (Scraping)
-            # Vamos pegar o texto de confirmação que aparece na tela
             mensagem = page.inner_text(".flash.success")
             print(f"📊 Resultado coletado: {mensagem}")
 
