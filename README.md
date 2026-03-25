@@ -1,4 +1,4 @@
-# 🤖 Automation Bot Python (Nível Empresa)
+# 🤖 Automation Bot Python 
 
 Este projeto é um bot de automação completo desenvolvido em **Python**, utilizando **Playwright** para a interação com o navegador e **Pandas** para a manipulação e salvamento de dados. 
 
